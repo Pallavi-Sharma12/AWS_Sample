@@ -4,10 +4,10 @@ import boto3
 from botocore.exceptions import ClientError
 client = boto3.client('s3')
 s3 = boto3.resource('s3')
-filename = 'F:\\a.txt'			                                          #Create a file to upload in S3
+filename = 'F:\\a.txt'			                                      #Create a file to upload in S3
 bucket_name = 'bucket-rekognition-test'                               #Bucket Name
 bucket = s3.Bucket('bucket-rekognition-test')
-file = 'Db.txt'								                                        #File name after upload to S3
+file = 'Db.txt'								                           #File name after upload to S3
 client.upload_file(filename,bucket_name,file)
 for filess in bucket.objects.all():
-    print(filess)					                                            #To print all the contents present in S3 Bucket
+    print(filess)					                                   #To print all the contents present in S3 Bucket

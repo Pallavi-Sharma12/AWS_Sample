@@ -1,0 +1,13 @@
+import boto3
+
+def lambda_handler(event, context):
+    ec2 = boto3.resource('ec2')
+    base = ec2.instances.all()
+    for instance in base:
+        tags = instance.tags
+        to_tag = [t for t in tags]
+        for vol in instance.volumes.all():
+            print(str(instance) + " --> " + str(vol))
+            vol.create_tags(Tags=to_tag)
+            tagName=vol.tags
+            print(tagName)

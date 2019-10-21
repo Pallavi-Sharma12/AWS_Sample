@@ -5,9 +5,8 @@ def lambda_handler(event, context):
     base = ec2.instances.all()
     for EC2_Instance in base:
         tag_Value = EC2_Instance.tags
-        to_tag = [t for t in tag_Value]
         for ebs_vol in EC2_Instance.volumes.all():
             print(str(EC2_Instance) + " --> " + str(ebs_vol))
-            ebs_vol.create_tags(Tags=to_tag)
+            ebs_vol.create_tags(Tags=tag_Value)
             tagName=ebs_vol.tags
             print(tagName)

@@ -2,11 +2,13 @@ import boto3
 
 def lambda_handler(event, context):
     ec2 = boto3.resource('ec2')
-    ec2_base = ec2.instances.filter(Filters=[{'Name':'tag:A', 'Values':['B']}])
+    ec2_base = ec2.instances.filter(Filters=[{'Name':'tag:A:B:B:', 'Values':['C:C:C']}])
     for EC2_Instance in ec2_base:
         tag_Value = EC2_Instance.tags
+        finalTags = [tag_Value[i] for i in range(len(tag_Value)) for y in tag_Value[i] if tag_Value[i][y].startswith("C") and y != 'Value']
+        tag_To_Attach = [item for item in tag_Value if item not in finalTags]
         for ebs_vol in EC2_Instance.volumes.all():
             print(str(EC2_Instance) + " --> " + str(ebs_vol))
-            ebs_vol.create_tags(Tags=tag_Value)
+            ebs_vol.create_tags(Tags=tag_To_Attach)
             tagName=ebs_vol.tags
             print(tagName)
